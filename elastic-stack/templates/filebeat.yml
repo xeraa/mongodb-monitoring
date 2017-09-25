@@ -6,11 +6,7 @@ filebeat.prospectors:
   document_type: mongodb
 
 
-filebeat.modules:
-- module: system
-
-
-output.elasticsearch:
-  hosts: ["localhost:9200"]
+output.logstash:
+  hosts: ["localhost:5044"]
   username: "{{ elastic_user }}"
   password: "{{ elastic_password }}"

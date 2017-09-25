@@ -18,7 +18,7 @@ metricbeat.modules:
   cgroups: true
 
 - module: mongodb
-  metricsets: ["status"]
+  metricsets: ["dbstats", "status"]
   hosts: ["localhost:27017"]
 
 

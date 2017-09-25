@@ -12,6 +12,7 @@ This repository will install MongoDB to monitor it with the [Elastic Stack](http
 * Activity: Generate MongoDB data with [POCDriver](https://github.com/johnlpage/POCDriver):
   * Show a sample dataset: `$ java -jar /opt/pocdriver/bin/POCDriver.jar -p`
   * Do 20 **k**ey lookups, do 10 **i**nserts, **u**update 10 documents by incrementing an integer in them, and use a **b**atch size of 20:`$ java -jar /opt/pocdriver/bin/POCDriver.jar -k 20 -i 10 -u 10 -b 20`
+* Generate more data including errors: `$ mongo /elastic-stack/mongodb.js`
 * Injector: Generate Elasticsearch data: `$ java -jar /opt/injector.jar 100000 1000`
 
 

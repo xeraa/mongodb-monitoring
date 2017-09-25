@@ -1,0 +1,37 @@
+---
+
+- hosts: localhost
+  become: true
+  vars_files:
+    - vars.yml
+
+
+  tasks:
+
+  - name: Reset the Beat configurations to the workshop state
+    template: src=templates/{{ item }}-workshop.yml dest=/etc/{{ item }}/{{ item }}.yml
+    with_items:
+      - filebeat
+      - heartbeat
+      - metricbeat
+      - packetbeat
+
+  - name: Restart the Beats
+    service: name={{ item }} state=restarted
+    with_items:
+      - filebeat
+      - heartbeat
+      - metricbeat
+      - packetbeat
+
+  - name: Reset the Logstash configurations to the workshop state
+    template: src=templates/mongodb-filter-workshop.yml dest=/etc/logstash/conf.d/10-mongodb-filter.conf
+
+  - name: Restart Logstash
+    service: name=logstash state=restarted
+
+  - name: Reload the Filebeat dashboard
+    command: >
+      /usr/share/filebeat/scripts/import_dashboards -file /opt/dashboards.zip
+                                                    -user {{ elastic_user }}
+                                                    -pass {{ elastic_password }}
