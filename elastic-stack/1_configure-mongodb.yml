@@ -1,0 +1,15 @@
+---
+
+- hosts: localhost
+  become: true
+  vars_files:
+    - vars.yml
+
+
+  tasks:
+
+  - name: Change the MongoDB configuration
+    template: src=templates/mongod.conf dest=/etc/mongod.conf
+
+  - name: Restart MongoDB
+    service: name=mongod state=restarted

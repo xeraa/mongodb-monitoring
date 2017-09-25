@@ -1,0 +1,16 @@
+filebeat.prospectors:
+
+- input_type: log
+  paths:
+    - /var/log/mongodb/mongod.log
+  document_type: mongodb
+
+
+filebeat.modules:
+- module: system
+
+
+output.elasticsearch:
+  hosts: ["localhost:9200"]
+  username: "{{ elastic_user }}"
+  password: "{{ elastic_password }}"
