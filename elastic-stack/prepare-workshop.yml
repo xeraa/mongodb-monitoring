@@ -25,7 +25,7 @@
       - packetbeat
 
   - name: Reset the Logstash configurations to the workshop state
-    template: src=templates/mongodb-filter-workshop.yml dest=/etc/logstash/conf.d/10-mongodb-filter.conf
+    template: src=templates/mongodb-filter-workshop.conf dest=/etc/logstash/conf.d/10-mongodb-filter.conf
 
   - name: Restart Logstash
     service: name=logstash state=restarted
