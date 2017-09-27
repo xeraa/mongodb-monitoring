@@ -1,5 +1,5 @@
-// Run with: mongo /elastic-stack/mongodb.js
-// It will generate some queries, so we have something to show in Packetbeat for MongoDB
+// Run: mongo /elastic-stack/mongodb.js
+// It will generate some queries, so we have something to show in Packetbeat for MongoDB.
 
 db.test.drop()
 db.test.createIndex({ "count": 1 }, { unique: true })
@@ -15,4 +15,3 @@ for(i=1; i<=total; i++){
         print(i + " of " + total)
     }
 };
-
