@@ -30,7 +30,7 @@
            -u "{{ elastic_user }}:{{ elastic_password }}"
 
   - name: Reset the Logstash configurations to the workshop state
-    template: src=templates/mongodb-filter-workshop.conf dest=/etc/logstash/conf.d/10-mongodb-filter.conf
+    file: path=/etc/logstash/conf.d/00-mongodb-input.conf state=absent
 
   - name: Restart Logstash
     service: name=logstash state=restarted
