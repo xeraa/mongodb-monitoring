@@ -8,22 +8,22 @@
 
   tasks:
 
-#  - name: Create the ingest pipeline for the PostgreSQL logs
-#    command: >
-#      curl -XPUT 'http://localhost:9200/_ingest/pipeline/mongodb_log'
-#           -H "Content-Type: application/json"
-#           -u "{{ elastic_user }}:{{ elastic_password }}"
-#           -d '{
-#                 "description" : "Ingest pipeline for MongoDB logs",
-#                 "processors" : [
-#                   {
-#                     "grok": {
-#                       "field": "message",
-#                       "patterns": ["(?m)%{DATESTAMP:timestamp}%{SPACE}%{TZ}%{SPACE}(\\[%{DATA:group_id}\\])%{SPACE}(\\[?%{DATA:user}\\]?@\\[?%{DATA:database}\\]?)?%{SPACE}%{DATA:level}:%{SPACE}%{GREEDYDATA:msg}"]
-#                     }
-#                   }
-#                 ]
-#               }'
+  - name: Create the ingest pipeline for the MongoDB logs
+    command: >
+      curl -XPUT 'http://localhost:9200/_ingest/pipeline/mongodb_log'
+           -H "Content-Type: application/json"
+           -u "{{ elastic_user }}:{{ elastic_password }}"
+           -d '{
+                 "description" : "Ingest pipeline for MongoDB logs",
+                 "processors" : [
+                   {
+                     "grok": {
+                       "field": "message",
+                       "patterns": ["%{TIMESTAMP_ISO8601:timestamp}%{SPACE}%{MONGO3_SEVERITY:mongodb.severity}%{SPACE}%{MONGO3_COMPONENT:mongodb.component}%{SPACE}(?:[%{DATA:mongodb.context}])?%{SPACE}%{GREEDYDATA:message}"]
+                     }
+                   }
+                 ]
+               }'
 
   - name: Change the Beat configurations
     template: src=templates/{{ item }}.yml dest=/etc/{{ item }}/{{ item }}.yml
@@ -41,11 +41,12 @@
       - metricbeat
       - packetbeat
 
-  - name: Workaround for Filebeat failing to start. Fixed in 6.0, see https://github.com/elastic/beats/issues/4444
+  - name: Workaround for Filebeat failing to start — template. Fixed in 6.0, see https://github.com/elastic/beats/issues/4444
     template: src=templates/filebeat-restart.sh dest=/opt/filebeat-restart.sh mode=0755
 
-  - name: Workaround for Filebeat failing to start. Fixed in 6.0, see https://github.com/elastic/beats/issues/4444
+  - name: Workaround for Filebeat failing to start — cron. Fixed in 6.0, see https://github.com/elastic/beats/issues/4444
     cron:
       name: "Workaround for Filebeat failing to start"
       special_time: reboot
       job: "/opt/filebeat-restart.sh"
+      state: present

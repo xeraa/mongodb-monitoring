@@ -24,6 +24,11 @@
       - metricbeat
       - packetbeat
 
+  - name: Remove the ingest pipeline
+    command: >
+      curl -XDELETE 'http://localhost:9200/_ingest/pipeline/mongodb_log'
+           -u "{{ elastic_user }}:{{ elastic_password }}"
+
   - name: Reset the Logstash configurations to the workshop state
     template: src=templates/mongodb-filter-workshop.conf dest=/etc/logstash/conf.d/10-mongodb-filter.conf
 
