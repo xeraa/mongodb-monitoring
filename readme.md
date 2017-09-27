@@ -2,6 +2,8 @@
 
 This repository will install MongoDB to monitor it with the [Elastic Stack](https://www.elastic.co/products) (using Elasticsearch, Kibana, Beats, and Logstash) and X-Pack. You can start from scratch and configure everything with [Vagrant and Ansible](#vagrant-and-ansible).
 
+Slides for the [workshop](https://speakerdeck.com/xeraa/monitor-mongodb-with-the-elastic-stack).
+
 
 
 ## Features
@@ -13,7 +15,6 @@ This repository will install MongoDB to monitor it with the [Elastic Stack](http
   * Show a sample dataset: `$ java -jar /opt/pocdriver/bin/POCDriver.jar -p`
   * Do 20 **k**ey lookups, do 10 **i**nserts, **u**update 10 documents by incrementing an integer in them, and use a **b**atch size of 20:`$ java -jar /opt/pocdriver/bin/POCDriver.jar -k 20 -i 10 -u 10 -b 20`
 * Generate more data including errors: `$ mongo /elastic-stack/mongodb.js`
-* Injector: Generate Elasticsearch data: `$ java -jar /opt/injector.jar 100000 1000`
 
 
 
@@ -41,7 +42,3 @@ For workshops, reset the fully configured environment with `$ ansible-playbook /
 ## Kibana
 
 Access Kibana at [http://localhost:5601](http://localhost:5601). You will need to login into Kibana with the default credentials — username `elastic` and password `changeme`.
-
-
-
-## MongoDB
